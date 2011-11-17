@@ -145,6 +145,9 @@ function setpaths()
 
     unset ANDROID_HOST_OUT
     export ANDROID_HOST_OUT=$(get_abs_build_var HOST_OUT)
+	unset ANDROID_DEVICE_CONFIG
+	tdevice=$(get_build_var TARGET_DEVICE)
+	export DEVICE=$T/device/*/$tdevice
 
     # needed for building linux on MacOS
     # TODO: fix the path
@@ -679,6 +682,16 @@ function cproj()
     echo "can't find Android.mk"
 }
 
+function cdevice()
+{	
+	cd $DEVICE
+}
+
+function cout()
+{
+	cd $OUT	
+}
+
 function pid()
 {
    local EXE="$1"
@@ -1050,6 +1063,11 @@ function set_java_home() {
                 ;;
         esac
     fi
+}
+
+function mkimg()
+{	
+	sh $DEVICE/mkfs.sh
 }
 
 if [ "x$SHELL" != "x/bin/bash" ]; then
