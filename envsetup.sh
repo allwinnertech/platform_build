@@ -682,15 +682,6 @@ function cproj()
     echo "can't find Android.mk"
 }
 
-function cdevice()
-{	
-	cd $DEVICE
-}
-
-function cout()
-{
-	cd $OUT	
-}
 
 function pid()
 {
@@ -1065,10 +1056,7 @@ function set_java_home() {
     fi
 }
 
-function mkimg()
-{	
-	sh $DEVICE/mkfs.sh
-}
+. build/self-envsetup.sh
 
 if [ "x$SHELL" != "x/bin/bash" ]; then
     case `ps -o command -p $$` in
