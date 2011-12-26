@@ -1056,7 +1056,7 @@ function set_java_home() {
     fi
 }
 
-. build/self-envsetup.sh
+#. build/self-envsetup.sh
 
 if [ "x$SHELL" != "x/bin/bash" ]; then
     case `ps -o command -p $$` in
