@@ -1159,6 +1159,31 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(OTATOOLS)
 .PHONY: otapackage
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 
+
+# -----------------------------------------------------------------
+# OTA update package from old_target_files.zip
+
+name := $(TARGET_PRODUCT)
+ifeq ($(TARGET_BUILD_TYPE),debug)
+  name := $(name)_debug
+endif
+name := $(name)-ota-$(FILE_NAME_TAG)-inc
+
+INTERNAL_OTA_PACKAGE_TARGET_INC := $(PRODUCT_OUT)/$(name).zip
+
+$(INTERNAL_OTA_PACKAGE_TARGET_INC): KEY_CERT_PAIR := $(DEFAULT_KEY_CERT_PAIR)
+
+$(INTERNAL_OTA_PACKAGE_TARGET_INC): $(BUILT_TARGET_FILES_PACKAGE) $(OTATOOLS)
+	@echo "Package OTA: $@"
+	$(hide) ./build/tools/releasetools/ota_from_target_files -v \
+	   -p $(HOST_OUT) \
+           -k $(KEY_CERT_PAIR) \
+			-i ./old_target_files.zip \
+           $(BUILT_TARGET_FILES_PACKAGE) $@
+
+.PHONY: otapackage_inc
+otapackage_inc: $(INTERNAL_OTA_PACKAGE_TARGET_INC)
+
 # -----------------------------------------------------------------
 # The update package
 
